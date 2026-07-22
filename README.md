@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ⏱️ Time Tracker App (Control de Horas de Trabajo)
 
-## Getting Started
+![Banner Principal](public/assets/kackaton_kiro)
 
-First, run the development server:
+Aplicación web moderna desarrollada para gestionar, planificar y realizar un seguimiento de las horas de trabajo semanales y diarias. Ideal para freelancers, trabajadores remotos o cualquier persona que necesite organizar y optimizar su jornada laboral.
 
+---
+
+## 🚀 Tecnologías Utilizadas
+
+* **Framework:** [Next.js](https://nextjs.org/) (App Router)
+* **Librería UI:** React
+* **Estilos:** Tailwind CSS
+* **Persistencia:** LocalStorage (para guardar los datos localmente en el navegador)
+
+---
+
+## ✨ Características Principales
+
+* 📊 **Dashboard Semanal:** Visualización rápida del progreso de la semana actual con barras de progreso en tiempo real.
+* ⚙️ **Configuración Personalizada:** Define tus días laborables y la cantidad de horas objetivo por día o por semana.
+* 📝 **Registro Diario:** Marca horas trabajadas de forma manual o lleva un control detallado jornada a jornada.
+* 💾 **Persistencia Local:** Tus datos se guardan automáticamente para que no los pierdas al recargar la página.
+
+---
+
+## 📂 Estructura del Proyecto
+
+```text
+src/
+├── app/                  # Páginas y rutas principales (App Router)
+├── components/           # Componentes reutilizables (Tarjetas, Modales, Navbar)
+├── context/              # Estado global de la aplicación (Context API)
+├── types/                # Definiciones de tipos
+└── utils/                # Funciones auxiliares y manejo de fechas
+
+# 🛠️ Instalación y Configuración Local
+
+Sigue estos pasos para clonar y ejecutar el proyecto en tu máquina local:
+
+## 1. Clona el repositorio
 ```bash
+git clone https://github.com/facundomsteckler/control-horario-app.git
+
+## Entra en la carpeta del proyecto
+
+cd app_team345
+
+## Instalá las depedencias
+
+npm install
+
+## Ejecuta el servidor de desarrollo
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 👤 Autor:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Desarrollado por Facundo Steckler
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Linkedin <https://www.linkedin.com/in/facundomsteckler/>
