@@ -33,29 +33,36 @@ src/
 ├── context/              # Estado global de la aplicación (Context API)
 ├── types/                # Definiciones de tipos
 └── utils/                # Funciones auxiliares y manejo de fechas
+```
 
-# 🛠️ Instalación y Configuración Local
+## 🛠️ Instalación y Configuración Local
 
 Sigue estos pasos para clonar y ejecutar el proyecto en tu máquina local:
 
-## 1. Clona el repositorio
+### 1. Clona el repositorio
 ```bash
 git clone https://github.com/facundomsteckler/control-horario-app.git
+```
 
-## Entra en la carpeta del proyecto
-
+### 2. Entra en la carpeta del proyecto
+```bash
 cd app_team345
+```
 
-## Instalá las depedencias
-
+### 3. Instalá las dependencias
+```bash
 npm install
+```
 
-## Ejecuta el servidor de desarrollo
-
+### 4. Ejecuta el servidor de desarrollo
+```bash
 npm run dev
+```
 
-## 👤 Autor:
+---
+
+## 👤 Autor
 
 Desarrollado por Facundo Steckler
 
-# Linkedin <https://www.linkedin.com/in/facundomsteckler/>
+[LinkedIn](https://www.linkedin.com/in/facundomsteckler/)
