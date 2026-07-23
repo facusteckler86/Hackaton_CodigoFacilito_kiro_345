@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import type { DayRecord, WeeklyRecord } from "@/types";
-import { getCurrentWeekDays, getWeekStartDate } from "@/utils/dateUtils";
+import { getCurrentWeekDays, getWeekStartDate, calculateWorkedHours } from "@/utils/dateUtils";
 
 interface TimeTrackerContextType {
   weeklyGoal: number;
@@ -15,6 +15,7 @@ interface TimeTrackerContextType {
   setDailyGoal: (hours: number) => void;
   setWorkDays: (days: string[]) => void;
   updateDayHours: (date: string, hours: number) => void;
+  updateDayTimes: (date: string, checkIn: string, checkOut: string) => void;
 }
 
 const TimeTrackerContext = createContext<TimeTrackerContextType | undefined>(undefined);
@@ -100,6 +101,16 @@ export function TimeTrackerProvider({ children }: { children: React.ReactNode })
     );
   }, []);
 
+  const updateDayTimes = useCallback((date: string, checkIn: string, checkOut: string) => {
+    setDays((prev) =>
+      prev.map((d) =>
+        d.date === date
+          ? { ...d, checkIn, checkOut, hoursWorked: calculateWorkedHours(checkIn, checkOut) }
+          : d
+      )
+    );
+  }, []);
+
   const setWeeklyGoal = useCallback((hours: number) => setWeeklyGoalState(hours), []);
   const setDailyGoal = useCallback((hours: number) => setDailyGoalState(hours), []);
   const setWorkDays = useCallback((newDays: string[]) => setWorkDaysState(newDays), []);
@@ -117,6 +128,7 @@ export function TimeTrackerProvider({ children }: { children: React.ReactNode })
         setDailyGoal,
         setWorkDays,
         updateDayHours,
+        updateDayTimes,
       }}
     >
       {children}

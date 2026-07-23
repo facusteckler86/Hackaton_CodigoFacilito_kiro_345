@@ -12,11 +12,11 @@ export default function Home() {
 
   return (
     <div className="space-y-6 py-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800">Dashboard Semanal</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">Dashboard Semanal</h1>
         <button
           onClick={() => setSettingsOpen(true)}
-          className="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-700 transition-colors"
+          className="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-700 transition-colors w-full sm:w-auto"
         >
           Configuracion
         </button>
@@ -25,8 +25,8 @@ export default function Home() {
       <WeeklyProgress />
 
       <section>
-        <h2 className="text-lg font-semibold mb-3">Dias de la Semana</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+        <h2 className="text-lg font-semibold mb-3 dark:text-white">Dias de la Semana</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
           {days.map((day) => (
             <DayCard key={day.date} day={day} />
           ))}

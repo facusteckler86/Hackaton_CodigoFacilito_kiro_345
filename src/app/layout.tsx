@@ -14,11 +14,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className="bg-gray-100 min-h-screen">
+    <html lang="es" suppressHydrationWarning>
+      <body className="bg-gray-100 dark:bg-gray-900 min-h-screen transition-colors duration-300">
         <TimeTrackerProvider>
           <Navbar />
-          <main className="max-w-4xl mx-auto p-4">{children}</main>
+          <main className="max-w-4xl mx-auto px-3 sm:px-4 py-4">{children}</main>
+          <footer className="text-center py-4 text-sm text-gray-500 dark:text-gray-400">
+            Realizado por{" "}
+            <a
+              href="https://www.linkedin.com/in/facundomsteckler/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              facusteckler86
+            </a>
+          </footer>
         </TimeTrackerProvider>
       </body>
     </html>
