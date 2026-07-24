@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import { TimeTrackerProvider } from "@/context/TimeTrackerContext";
 
 export const metadata: Metadata = {
-  title: "Time Tracker - Control de Horas",
+  title: "Control de Horas Laborales",
   description: "Aplicacion para gestionar y controlar horas de trabajo semanales y diarias",
 };
 

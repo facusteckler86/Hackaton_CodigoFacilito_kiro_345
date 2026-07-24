@@ -1,8 +1,9 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 import type { DayRecord, WeeklyRecord } from "@/types";
 import { getCurrentWeekDays, getWeekStartDate, calculateWorkedHours } from "@/utils/dateUtils";
+import { saveTrackerData, loadTrackerData } from "@/services/timeservices";
 
 interface TimeTrackerContextType {
   weeklyGoal: number;
@@ -44,41 +45,75 @@ export function TimeTrackerProvider({ children }: { children: React.ReactNode })
   const [days, setDays] = useState<DayRecord[]>(getCurrentWeekDays());
   const [history, setHistory] = useState<WeeklyRecord[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Cargar datos del localStorage al montar
+  // Cargar datos: primero intenta Firestore, si falla usa localStorage
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
+    async function loadData() {
       try {
-        const data: StoredData = JSON.parse(stored);
-        const currentWeekStart = getWeekStartDate(new Date());
+        const firestoreData = await loadTrackerData();
+        if (firestoreData) {
+          const currentWeekStart = getWeekStartDate(new Date());
 
-        // Si cambio de semana, guardar la semana anterior en historial
-        if (data.currentWeekStart && data.currentWeekStart !== currentWeekStart) {
-          const previousWeek: WeeklyRecord = {
-            weekStart: data.currentWeekStart,
-            totalHours: data.days.reduce((acc, d) => acc + d.hoursWorked, 0),
-            goal: data.weeklyGoal,
-            days: data.days,
-          };
-          setHistory([previousWeek, ...data.history]);
-          setDays(getCurrentWeekDays());
-        } else {
-          setDays(data.days);
-          setHistory(data.history);
+          if (firestoreData.currentWeekStart && firestoreData.currentWeekStart !== currentWeekStart) {
+            const previousWeek: WeeklyRecord = {
+              weekStart: firestoreData.currentWeekStart,
+              totalHours: firestoreData.days.reduce((acc, d) => acc + d.hoursWorked, 0),
+              goal: firestoreData.weeklyGoal,
+              days: firestoreData.days,
+            };
+            setHistory([previousWeek, ...firestoreData.history]);
+            setDays(getCurrentWeekDays());
+          } else {
+            setDays(firestoreData.days);
+            setHistory(firestoreData.history);
+          }
+
+          setWeeklyGoalState(firestoreData.weeklyGoal);
+          setDailyGoalState(firestoreData.dailyGoal);
+          setWorkDaysState(firestoreData.workDays);
+          setIsLoaded(true);
+          return;
         }
-
-        setWeeklyGoalState(data.weeklyGoal);
-        setDailyGoalState(data.dailyGoal);
-        setWorkDaysState(data.workDays);
       } catch {
-        // Si hay error en el parse, usar valores por defecto
+        // Si Firestore falla, intentar localStorage como fallback
       }
+
+      // Fallback: localStorage
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          const data: StoredData = JSON.parse(stored);
+          const currentWeekStart = getWeekStartDate(new Date());
+
+          if (data.currentWeekStart && data.currentWeekStart !== currentWeekStart) {
+            const previousWeek: WeeklyRecord = {
+              weekStart: data.currentWeekStart,
+              totalHours: data.days.reduce((acc, d) => acc + d.hoursWorked, 0),
+              goal: data.weeklyGoal,
+              days: data.days,
+            };
+            setHistory([previousWeek, ...data.history]);
+            setDays(getCurrentWeekDays());
+          } else {
+            setDays(data.days);
+            setHistory(data.history);
+          }
+
+          setWeeklyGoalState(data.weeklyGoal);
+          setDailyGoalState(data.dailyGoal);
+          setWorkDaysState(data.workDays);
+        } catch {
+          // Si hay error en el parse, usar valores por defecto
+        }
+      }
+      setIsLoaded(true);
     }
-    setIsLoaded(true);
+
+    loadData();
   }, []);
 
-  // Guardar datos en localStorage cuando cambien
+  // Guardar datos en localStorage y Firestore cuando cambien (con debounce)
   useEffect(() => {
     if (!isLoaded) return;
 
@@ -90,7 +125,17 @@ export function TimeTrackerProvider({ children }: { children: React.ReactNode })
       history,
       currentWeekStart: getWeekStartDate(new Date()),
     };
+
+    // Guardar inmediatamente en localStorage
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+    // Guardar en Firestore con debounce de 1.5s para no saturar
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+    saveTimeout.current = setTimeout(() => {
+      saveTrackerData(data).catch(() => {
+        // Silenciar errores de red, localStorage ya tiene los datos
+      });
+    }, 1500);
   }, [weeklyGoal, dailyGoal, workDays, days, history, isLoaded]);
 
   const totalHoursThisWeek = days.reduce((acc, d) => acc + d.hoursWorked, 0);

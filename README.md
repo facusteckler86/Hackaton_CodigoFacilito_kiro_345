@@ -1,6 +1,6 @@
-# ⏱️ Time Tracker App (Control de Horas de Trabajo)
+# ⏱️ Time Tracker App (Control de Horas Laborales)
 
-![Banner Principal](public/assets/kackaton_kiro)
+![Banner Principal](public/assets/hackaton_kiro.jpg)
 
 Aplicación web moderna desarrollada para gestionar, planificar y realizar un seguimiento de las horas de trabajo semanales y diarias. Ideal para freelancers, trabajadores remotos o cualquier persona que necesite organizar y optimizar su jornada laboral.
 
@@ -10,8 +10,8 @@ Aplicación web moderna desarrollada para gestionar, planificar y realizar un se
 
 * **Framework:** [Next.js](https://nextjs.org/) (App Router)
 * **Librería UI:** React
-* **Estilos:** Tailwind CSS
-* **Persistencia:** LocalStorage (para guardar los datos localmente en el navegador)
+* **Estilos:** Tailwind CSS y Framer Motion (Animaciones)
+* **Base de datos:** Base de Datos integrada con Firebase (Firestore)
 
 ---
 
@@ -58,7 +58,7 @@ npm install
 ```bash
 npm run dev
 ```
-
+[Logo Codigo Facilito](public/assets/cocodrilo.jpg)
 ---
 
 ## 👤 Autor
