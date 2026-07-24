@@ -58,7 +58,7 @@ npm install
 ```bash
 npm run dev
 ```
-[Logo Codigo Facilito](public/assets/cocodrilo.jpg)
+![Logo Codigo Facilito](public/assets/cocodrilo.jpg)
 ---
 
 ## 👤 Autor
