@@ -19,7 +19,7 @@ export default function Navbar() {
           <ul className="flex gap-4 text-sm">
             <li>
               <Link href="/" className="hover:text-blue-400 transition-colors">
-                Dashboard
+                Inicio
               </Link>
             </li>
             <li>

@@ -17,6 +17,7 @@ interface TimeTrackerContextType {
   setWorkDays: (days: string[]) => void;
   updateDayHours: (date: string, hours: number) => void;
   updateDayTimes: (date: string, checkIn: string, checkOut: string) => void;
+  resetWeek: () => void;
 }
 
 const TimeTrackerContext = createContext<TimeTrackerContextType | undefined>(undefined);
@@ -160,6 +161,10 @@ export function TimeTrackerProvider({ children }: { children: React.ReactNode })
   const setDailyGoal = useCallback((hours: number) => setDailyGoalState(hours), []);
   const setWorkDays = useCallback((newDays: string[]) => setWorkDaysState(newDays), []);
 
+  const resetWeek = useCallback(() => {
+    setDays(getCurrentWeekDays());
+  }, []);
+
   return (
     <TimeTrackerContext.Provider
       value={{
@@ -174,6 +179,7 @@ export function TimeTrackerProvider({ children }: { children: React.ReactNode })
         setWorkDays,
         updateDayHours,
         updateDayTimes,
+        resetWeek,
       }}
     >
       {children}
