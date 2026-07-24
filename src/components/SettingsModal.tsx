@@ -12,8 +12,8 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   const { weeklyGoal, dailyGoal, workDays, setWeeklyGoal, setDailyGoal, setWorkDays } =
     useTimeTracker();
 
-  const [localWeekly, setLocalWeekly] = useState(weeklyGoal);
-  const [localDaily, setLocalDaily] = useState(dailyGoal);
+  const [localWeekly, setLocalWeekly] = useState(String(weeklyGoal));
+  const [localDaily, setLocalDaily] = useState(String(dailyGoal));
   const [localWorkDays, setLocalWorkDays] = useState<string[]>(workDays);
 
   const allDays = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
@@ -25,8 +25,8 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   };
 
   const handleSave = () => {
-    setWeeklyGoal(localWeekly);
-    setDailyGoal(localDaily);
+    setWeeklyGoal(parseFloat(localWeekly) || 0);
+    setDailyGoal(parseFloat(localDaily) || 0);
     setWorkDays(localWorkDays);
     onClose();
   };
@@ -40,20 +40,20 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
 
         <label className="block text-sm font-medium mb-1 dark:text-gray-300">Meta semanal (horas)</label>
         <input
-          type="number"
+          type="text"
+          inputMode="decimal"
           value={localWeekly}
-          onChange={(e) => setLocalWeekly(Number(e.target.value))}
+          onChange={(e) => setLocalWeekly(e.target.value.replace(/[^0-9.]/g, ""))}
           className="w-full border dark:border-gray-600 rounded px-3 py-2 mb-3 bg-white dark:bg-gray-700 dark:text-white"
-          min={0}
         />
 
         <label className="block text-sm font-medium mb-1 dark:text-gray-300">Meta diaria (horas)</label>
         <input
-          type="number"
+          type="text"
+          inputMode="decimal"
           value={localDaily}
-          onChange={(e) => setLocalDaily(Number(e.target.value))}
+          onChange={(e) => setLocalDaily(e.target.value.replace(/[^0-9.]/g, ""))}
           className="w-full border dark:border-gray-600 rounded px-3 py-2 mb-3 bg-white dark:bg-gray-700 dark:text-white"
-          min={0}
         />
 
         <label className="block text-sm font-medium mb-2 dark:text-gray-300">Dias laborables</label>

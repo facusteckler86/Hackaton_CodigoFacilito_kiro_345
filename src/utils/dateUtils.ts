@@ -70,18 +70,18 @@ export function getDayName(date: Date): string {
 export function calculateWorkedHours(checkIn: string, checkOut: string): number {
   if (!checkIn || !checkOut) return 0;
 
-  const [inHours, inMinutes] = checkIn.split(":").map(Number);
-  const [outHours, outMinutes] = checkOut.split(":").map(Number);
+  const inParts = checkIn.split(":").map(Number);
+  const outParts = checkOut.split(":").map(Number);
 
-  const totalInMinutes = inHours * 60 + inMinutes;
-  const totalOutMinutes = outHours * 60 + outMinutes;
+  const inSeconds = (inParts[0] || 0) * 3600 + (inParts[1] || 0) * 60 + (inParts[2] || 0);
+  const outSeconds = (outParts[0] || 0) * 3600 + (outParts[1] || 0) * 60 + (outParts[2] || 0);
 
-  const diffMinutes = totalOutMinutes - totalInMinutes;
+  const diffSeconds = outSeconds - inSeconds;
   
-  if (diffMinutes <= 0) return 0;
+  if (diffSeconds <= 0) return 0;
 
   // Retorna horas en formato decimal (ej: 7.58)
-  return Number((diffMinutes / 60).toFixed(2));
+  return Number((diffSeconds / 3600).toFixed(2));
 }
 
 /**

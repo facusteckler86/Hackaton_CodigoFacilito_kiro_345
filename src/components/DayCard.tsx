@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTimeTracker } from "@/context/TimeTrackerContext";
 import type { DayRecord } from "@/types";
@@ -11,6 +12,9 @@ interface DayCardProps {
 
 export default function DayCard({ day }: DayCardProps) {
   const { updateDayTimes, dailyGoal } = useTimeTracker();
+  const [localCheckIn, setLocalCheckIn] = useState(day.checkIn || "");
+  const [localCheckOut, setLocalCheckOut] = useState(day.checkOut || "");
+  const [saved, setSaved] = useState(true);
 
   // Calculamos las horas trabajadas en base a la entrada y salida guardadas en el día
   const hoursWorked = calculateWorkedHours(day.checkIn || "", day.checkOut || "");
@@ -19,13 +23,19 @@ export default function DayCard({ day }: DayCardProps) {
   const isCompleted = hoursWorked >= dailyGoal;
   const difference = Number((hoursWorked - dailyGoal).toFixed(2));
 
-  // Aca se indica la entrada y la salida del trabajo
   const handleCheckInChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateDayTimes(day.date, e.target.value, day.checkOut || "");
+    setLocalCheckIn(e.target.value);
+    setSaved(false);
   };
 
   const handleCheckOutChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateDayTimes(day.date, day.checkIn || "", e.target.value);
+    setLocalCheckOut(e.target.value);
+    setSaved(false);
+  };
+
+  const handleSave = () => {
+    updateDayTimes(day.date, localCheckIn, localCheckOut);
+    setSaved(true);
   };
 
   return (
@@ -52,26 +62,41 @@ export default function DayCard({ day }: DayCardProps) {
         />
       </div>
 
-      {/* Inputs de Entrada y Salida */}
-      <div className="grid grid-cols-2 gap-2 mt-1">
-        <div>
-          <label className="block text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-400 mb-1">Entrada</label>
-          <input 
-            type="time" 
-            value={day.checkIn || ""} 
-            onChange={handleCheckInChange}
-            className="w-full border border-gray-300 dark:border-gray-600 p-1.5 text-sm rounded bg-gray-50 dark:bg-gray-700 dark:text-white"
-          />
+      {/* Inputs de Entrada y Salida + Botón Guardar */}
+      <div className="flex flex-col gap-2 mt-1">
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="block text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-400 mb-1">Entrada</label>
+            <input 
+              type="time" 
+              step="1"
+              value={localCheckIn} 
+              onChange={handleCheckInChange}
+              className="w-full border border-gray-300 dark:border-gray-600 p-1.5 text-sm rounded bg-gray-50 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-400 mb-1">Salida</label>
+            <input 
+              type="time" 
+              step="1"
+              value={localCheckOut} 
+              onChange={handleCheckOutChange}
+              className="w-full border border-gray-300 dark:border-gray-600 p-1.5 text-sm rounded bg-gray-50 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
         </div>
-        <div>
-          <label className="block text-[10px] uppercase font-semibold text-gray-500 dark:text-gray-400 mb-1">Salida</label>
-          <input 
-            type="time" 
-            value={day.checkOut || ""} 
-            onChange={handleCheckOutChange}
-            className="w-full border border-gray-300 dark:border-gray-600 p-1.5 text-sm rounded bg-gray-50 dark:bg-gray-700 dark:text-white"
-          />
-        </div>
+        <button
+          onClick={handleSave}
+          disabled={saved}
+          className={`w-full sm:w-auto px-3 py-1.5 text-xs font-semibold rounded transition-colors ${
+            saved
+              ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-default"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+          }`}
+        >
+          {saved ? "Guardado" : "Guardar"}
+        </button>
       </div>
 
       {/* Mensaje de estado de cumplimiento del horario*/}
