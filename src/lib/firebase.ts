@@ -2,12 +2,12 @@ import { initializeApp, getApps } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD-hY81y56ehK-Ly4N4R0XswdGuXv8qchE",
-  authDomain: "appteam345-b470b.firebaseapp.com",
-  projectId: "appteam345-b470b",
-  storageBucket: "appteam345-b470b.firebasestorage.app",
-  messagingSenderId: "1037798307625",
-  appId: "1:1037798307625:web:ea1945579b6867b4caa938",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // Evita inicializar múltiples veces en desarrollo (hot reload)
