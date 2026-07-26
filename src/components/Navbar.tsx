@@ -23,6 +23,11 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
+              <Link href="/agenda" className="hover:text-blue-400 transition-colors">
+                Agenda
+              </Link>
+            </li>
+            <li>
               <Link href="/historial" className="hover:text-blue-400 transition-colors">
                 Historial
               </Link>
@@ -56,6 +61,11 @@ export default function Navbar() {
           <li>
             <Link href="/" onClick={() => setMenuOpen(false)} className="block py-1 hover:text-blue-400 transition-colors">
               Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link href="/agenda" onClick={() => setMenuOpen(false)} className="block py-1 hover:text-blue-400 transition-colors">
+              Agenda
             </Link>
           </li>
           <li>

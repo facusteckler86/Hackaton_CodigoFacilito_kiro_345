@@ -25,3 +25,12 @@ export interface DayLog {
   hoursWorked: number; 
   status: "pending" | "completed" | "overtime";
 }
+
+export interface CalendarEvent {
+  id: string;
+  title: string;
+  date: string; // formato YYYY-MM-DD
+  time: string; // formato HH:MM (intervalos de 30 min)
+  dayName: string; // dia de la semana
+  createdAt: string; // ISO timestamp
+}
