@@ -27,14 +27,14 @@ export default function Calendar({ events, onDayClick, selectedDate }: CalendarP
 
   const todayStr = formatDateStr(today.getFullYear(), today.getMonth(), today.getDate());
 
-  // Primer dia del mes (0=domingo, ajustamos a lunes=0)
+  // inicio de la semana del mes
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const startOffset = firstDay === 0 ? 6 : firstDay - 1;
 
   // Cantidad de dias en el mes
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-  // Eventos por fecha para lookup rapido
+  // Eventos por fecha
   const eventsByDate: Record<string, CalendarEvent[]> = {};
   events.forEach((ev) => {
     if (!eventsByDate[ev.date]) eventsByDate[ev.date] = [];
@@ -59,7 +59,7 @@ export default function Calendar({ events, onDayClick, selectedDate }: CalendarP
     }
   };
 
-  // Generar celdas del calendario
+
   const cells: (number | null)[] = [];
   for (let i = 0; i < startOffset; i++) cells.push(null);
   for (let d = 1; d <= daysInMonth; d++) cells.push(d);

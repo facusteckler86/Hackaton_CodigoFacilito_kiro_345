@@ -48,7 +48,7 @@ export function TimeTrackerProvider({ children }: { children: React.ReactNode })
   const [isLoaded, setIsLoaded] = useState(false);
   const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Cargar datos: primero intenta Firestore, si falla usa localStorage
+  // Carga de datos: primero por Firestore, si falla vamo al  localStorage
   useEffect(() => {
     async function loadData() {
       try {
@@ -77,7 +77,7 @@ export function TimeTrackerProvider({ children }: { children: React.ReactNode })
           return;
         }
       } catch {
-        // Si Firestore falla, intentar localStorage como fallback
+        // Si Firestore falla, se  intenta con el querido localStorage póliza de vida
       }
 
       // Fallback: localStorage

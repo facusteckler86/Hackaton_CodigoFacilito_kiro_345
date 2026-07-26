@@ -8,7 +8,7 @@ interface EventFormProps {
   onSave: (title: string, date: string, time: string) => void;
 }
 
-// Generar opciones de hora en intervalos de 30 minutos (00:00 a 23:30)
+// Aca se dan las opciones cada 30 min en la agenda
 function generateTimeSlots(): string[] {
   const slots: string[] = [];
   for (let h = 0; h < 24; h++) {
@@ -26,7 +26,7 @@ export default function EventForm({ selectedDate, onSave }: EventFormProps) {
   const [date, setDate] = useState(selectedDate);
   const [time, setTime] = useState("09:00");
 
-  // Actualizar fecha cuando cambia la seleccion del calendario
+  // Actualizacion de fecha en el calendario al guardar el evento
   if (selectedDate !== date && title === "") {
     setDate(selectedDate);
   }
@@ -38,7 +38,7 @@ export default function EventForm({ selectedDate, onSave }: EventFormProps) {
     setTitle("");
   };
 
-  // Obtener nombre del dia a partir de la fecha seleccionada
+  
   const dayName = date ? getDayName(new Date(date + "T00:00:00")) : "";
 
   return (
@@ -48,7 +48,7 @@ export default function EventForm({ selectedDate, onSave }: EventFormProps) {
       </h3>
 
       <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-        Titulo del evento o tarea
+        Evento / Tarea
       </label>
       <input
         type="text"
