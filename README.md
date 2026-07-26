@@ -12,6 +12,7 @@ Aplicación web moderna desarrollada para gestionar, planificar y realizar un se
 * **Librería UI:** React
 * **Estilos:** Tailwind CSS y Framer Motion (Animaciones)
 * **Base de datos:** Base de Datos integrada con Firebase (Firestore)
+* **Implementacion por intermedio de Amplify de AWS
 
 ---
 
