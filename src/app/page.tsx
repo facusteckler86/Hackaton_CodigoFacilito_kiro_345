@@ -7,8 +7,11 @@ import DayCard from "@/components/DayCard";
 import SettingsModal from "@/components/SettingsModal";
 
 export default function Home() {
-  const { days } = useTimeTracker();
+  const { days, workDays } = useTimeTracker();
   const [settingsOpen, setSettingsOpen] = useState(false);
+
+  // En desktop solo mostramos los días laborables configurados
+  const filteredDays = days.filter((day) => workDays.includes(day.dayName));
 
   return (
     <div className="space-y-6 py-4">
@@ -26,8 +29,17 @@ export default function Home() {
 
       <section>
         <h2 className="text-lg font-semibold mb-3 dark:text-white">Dias de la Semana</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+
+        {/* Mobile: sin cambios, como estaba */}
+        <div className="grid grid-cols-1 gap-3 sm:hidden">
           {days.map((day) => (
+            <DayCard key={day.date} day={day} />
+          ))}
+        </div>
+
+        {/* Desktop: solo dias laborables, de a pares */}
+        <div className="hidden sm:grid sm:grid-cols-2 gap-3">
+          {filteredDays.map((day) => (
             <DayCard key={day.date} day={day} />
           ))}
         </div>
